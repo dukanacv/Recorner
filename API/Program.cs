@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using API.Models.SeedData;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ namespace API
                 {
                     var context = services.GetRequiredService<Db>();
                     await context.Database.MigrateAsync();
+                    await DbContextSeed.SeedAsync(context, loggerFactory);
                 }
                 catch (Exception e)
                 {
