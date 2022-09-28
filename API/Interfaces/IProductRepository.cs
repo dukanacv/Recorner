@@ -8,5 +8,7 @@ namespace API.Interfaces
     {
         public Task<Product> GetProductByIdAsync(int id);
         public Task<List<Product>> GetProductsAsync();
+        public Task<List<ProductBrand>> GetProductBrandsAsync();
+        public Task<List<ProductType>> GetProductTypesAsync();
     }
 }

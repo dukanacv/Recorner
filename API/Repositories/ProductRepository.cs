@@ -14,14 +14,30 @@ namespace API.Repositories
             _db = db;
         }
 
+        public async Task<List<ProductBrand>> GetProductBrandsAsync()
+        {
+            return await _db.ProductBrands.ToListAsync();
+        }
+
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _db.Products.FindAsync(id);
+            return await _db.Products
+                .Include(p => p.ProductType)
+                .Include(p => p.ProductBrand)
+                .SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Product>> GetProductsAsync()
         {
-            return await _db.Products.ToListAsync();
+            return await _db.Products
+                .Include(p => p.ProductType)
+                .Include(p => p.ProductBrand)
+                .ToListAsync();
+        }
+
+        public Task<List<ProductType>> GetProductTypesAsync()
+        {
+            return _db.ProductTypes.ToListAsync();
         }
     }
 }
