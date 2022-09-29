@@ -6,6 +6,7 @@ using API.Errors;
 using API.Interfaces;
 using API.Middleware;
 using API.Repositories;
+using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -55,6 +56,8 @@ namespace API
             services.AddDbContext<Db>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddScoped<ProductsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +67,6 @@ namespace API
 
             if (env.IsDevelopment())
             {
-                app.UseSwagger();
             }
 
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
