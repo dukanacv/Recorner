@@ -10,8 +10,13 @@
             </select>
 
             <h5 class="text mt-3 ml-3">Marke</h5>
+            <h6 class="border bg-light" (click)="getAllProducts()" style="cursor: pointer; width: 80px;">Prikazi sve
+            </h6>
             <ul class="list-group">
-                <li class="list-group-item" *ngFor="let brand of brands">{{brand.name}}</li>
+                <li class="list-group-item" *ngFor="let brand of brands" [class.active]="brand.name ===
+                this.brandNameSelected" [value]="brand.name" (click)="onBrandSelected(brand.name)">{{brand.name}}
+                    <!-- condition for applying active class prop-->
+                </li>
             </ul>
             <h5 class="text ml-3 mt-3">Tipovi</h5>
             <ul class="list-group">

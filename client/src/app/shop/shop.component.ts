@@ -10,9 +10,10 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  products!: Product[]
+  products!: Product[] | null
   brands!: Brand[]
   productTypes!: ProductType[]
+  brandNameSelected!: string
 
   constructor(private shopService: ShopService) { }
 
@@ -23,6 +24,12 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
+    this.shopService.getProducts(this.brandNameSelected).subscribe(response => {
+      this.products = response
+    }, err => console.log(err))
+  }
+
+  getAllProducts() {
     this.shopService.getProducts().subscribe(response => {
       this.products = response
     }, err => console.log(err))
@@ -30,7 +37,8 @@ export class ShopComponent implements OnInit {
 
   getBrands() {
     this.shopService.getBrands().subscribe(response => {
-      this.brands = response
+      this.brands = response//spread operator
+      console.log(this.brands)
     }, err => console.log(err))
   }
 
@@ -38,5 +46,10 @@ export class ShopComponent implements OnInit {
     this.shopService.getProductTypes().subscribe(response => {
       this.productTypes = response
     }, err => console.log(err))
+  }
+
+  onBrandSelected(brandName: string) {
+    this.brandNameSelected = brandName
+    this.getProducts()
   }
 }

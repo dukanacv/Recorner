@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { Brand } from '../_models/brand';
 import { Product } from '../_models/product';
 import { ProductType } from '../_models/productType';
@@ -12,8 +13,19 @@ export class ShopService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts() {
-    return this.http.get<Product[]>(this.baseUrl + "products?pageSize=50")
+  getProducts(brandName?: string, typeName?: string) {
+    let params = new HttpParams();
+
+    if (brandName) {
+      params = params.append("brandName", brandName)
+    }
+
+    return this.http.get<Product[]>(this.baseUrl + "products", { observe: "response", params })
+      .pipe(
+        map(response => {
+          return response.body
+        })
+      )
   }
 
   getBrands() {
