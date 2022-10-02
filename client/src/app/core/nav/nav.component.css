@@ -10,3 +10,11 @@
     top: -6px;
     right: -2px;
 }
+
+a {
+    color: #343a40;
+}
+
+a:active {
+    color: cadetblue;
+}
