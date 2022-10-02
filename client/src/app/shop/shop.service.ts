@@ -2,6 +2,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Brand } from '../_models/brand';
+import { PaginatedResult } from '../_models/pagination';
 import { Product } from '../_models/product';
 import { ProductType } from '../_models/productType';
 
@@ -11,9 +12,11 @@ import { ProductType } from '../_models/productType';
 export class ShopService {
   baseUrl = "https://localhost:5001/api/"
 
+  paginatedResult: PaginatedResult<Product[]> = new PaginatedResult<Product[]>()
+
   constructor(private http: HttpClient) { }
 
-  getProducts(brandName?: string, sort?: string) {
+  getProducts(brandName?: string, sort?: string, page?: number, itemsPerPage?: number) {
     let params = new HttpParams();
 
     if (sort) {
@@ -24,10 +27,19 @@ export class ShopService {
       params = params.append("brandName", brandName)
     }
 
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append("pageNumber", page?.toString()!)
+      params = params.append("pageSize", itemsPerPage?.toString()!)
+    }
+
     return this.http.get<Product[]>(this.baseUrl + "products", { observe: "response", params })
       .pipe(
         map(response => {
-          return response.body
+          this.paginatedResult.result = response.body!
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(response.headers.get("Pagination")!)
+          }
+          return response
         })
       )
   }

@@ -23,6 +23,10 @@ export class ShopComponent implements OnInit {
     { name: "Cena: opadajuca", value: "priceDesc" }
   ]
 
+  currentPage: number = 1
+  pageSize: number = 6
+  totalItems!: number
+
   constructor(private shopService: ShopService) { }
 
   ngOnInit(): void {
@@ -32,14 +36,19 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProducts(this.brandNameSelected, this.sortSelected).subscribe(response => {
-      this.products = response
+    this.shopService.getProducts(this.brandNameSelected, this.sortSelected, this.currentPage, this.pageSize).subscribe((response) => {
+      this.products = response.body
+      let str = response.headers.get("Pagination")
+      let obj = JSON.parse(str!)
+      this.currentPage = obj.currentPage
+      this.pageSize = obj.itemsPerPage
+      this.totalItems = obj.totalItems
     }, err => console.log(err))
   }
 
   getAllProducts() {
     this.shopService.getProducts().subscribe(response => {
-      this.products = response
+      this.products = response.body
     }, err => console.log(err))
   }
 
@@ -63,5 +72,10 @@ export class ShopComponent implements OnInit {
   onSortSelected(sort: string) {
     this.sortSelected = sort
     this.getProducts();
+  }
+
+  onPageChanged(event: any) {
+    this.currentPage = event.page
+    this.getProducts()
   }
 }

@@ -40,6 +40,12 @@
                     <app-product-item [product]="p"></app-product-item>
                 </div>
             </div>
+            <div class="justify-content-center d-flex">
+                <pagination [boundaryLinks]="true" [totalItems]="this.totalItems" previousText="&lsaquo;"
+                    nextText="&rsaquo;" (pageChanged)="onPageChanged($event)" [itemsPerPage]="this.pageSize"
+                    firstText="&laquo;" lastText="&raquo;">
+                </pagination>
+            </div>
         </section>
     </div>
 </div>
