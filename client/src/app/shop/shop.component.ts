@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Brand } from '../_models/brand';
 import { Product } from '../_models/product';
 import { ProductType } from '../_models/productType';
@@ -10,6 +10,9 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
+  @ViewChild("search") searchTerm!: ElementRef
+  search!: string
+
   products!: Product[] | null
   brands!: Brand[]
   productTypes!: ProductType[]
@@ -36,20 +39,20 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProducts(this.brandNameSelected, this.sortSelected, this.currentPage, this.pageSize).subscribe((response) => {
-      this.products = response.body
-      let str = response.headers.get("Pagination")
-      let obj = JSON.parse(str!)
-      this.currentPage = obj.currentPage
-      this.pageSize = obj.itemsPerPage
-      this.totalItems = obj.totalItems
-    }, err => console.log(err))
+    this.shopService.getProducts(this.brandNameSelected, this.sortSelected,
+      this.currentPage, this.pageSize, this.search).subscribe((response) => {
+        this.products = response.body
+        let str = response.headers.get("Pagination")
+        let obj = JSON.parse(str!)
+        this.currentPage = obj.currentPage
+        this.pageSize = obj.itemsPerPage
+        this.totalItems = obj.totalItems
+      }, err => console.log(err))
   }
 
   getAllProducts() {
-    this.shopService.getProducts().subscribe(response => {
-      this.products = response.body
-    }, err => console.log(err))
+    this.brandNameSelected = ''
+    this.getProducts()
   }
 
   getBrands() {
@@ -66,6 +69,7 @@ export class ShopComponent implements OnInit {
 
   onBrandSelected(brandName: string) {
     this.brandNameSelected = brandName
+    this.currentPage = 1
     this.getProducts()
   }
 
@@ -75,7 +79,19 @@ export class ShopComponent implements OnInit {
   }
 
   onPageChanged(event: any) {
-    this.currentPage = event.page
+    if (this.currentPage !== event) {
+      this.currentPage = event.page
+      this.getProducts()
+    }
+  }
+
+  onSearch() {
+    this.search = this.searchTerm.nativeElement.value
     this.getProducts()
+  }
+
+  onResetFilters() {
+    this.searchTerm.nativeElement.value = null
+    window.location.reload()
   }
 }

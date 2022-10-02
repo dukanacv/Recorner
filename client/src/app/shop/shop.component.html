@@ -38,9 +38,10 @@
                 </header>
 
                 <div class="form-inline mt-2">
-                    <input class="form-control" style="width: 300px;" placeholder="Pretraga..." type="text">
-                    <button class="btn btn-outline-success my-2">Pretrazi</button>
-                    <button class="btn btn-outline-secondary my-2">Reset</button>
+                    <input (keyup.enter)="onSearch()" class="form-control" #search style="width: 300px;"
+                        placeholder="Pretraga..." type="text">
+                    <button class="btn btn-outline-success my-2" (click)="onSearch()">Pretrazi</button>
+                    <button class="btn btn-outline-secondary my-2" (click)="onResetFilters()">Reset</button>
                 </div>
             </div>
 

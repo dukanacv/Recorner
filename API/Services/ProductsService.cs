@@ -17,13 +17,19 @@ namespace API.Services
             _db = db;
         }
 
-        public async Task<PaginatedList<Product>> GetProductsAndOrdering(string sort, string brandName, UserParmas userParmas)
+        public async Task<PaginatedList<Product>> GetProductsAndOrdering(string sort, string brandName, UserParmas userParmas,
+        string search)
         {
             var products = from p in _db.Products select p;
 
             if (!String.IsNullOrEmpty(brandName))
             {
                 products = products.Where(p => p.ProductBrand.Name.Equals(brandName));
+            }
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.Name.ToLower().Contains(search.ToLower()));
             }
 
             switch (sort)

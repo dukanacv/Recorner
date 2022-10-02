@@ -16,7 +16,7 @@ export class ShopService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(brandName?: string, sort?: string, page?: number, itemsPerPage?: number) {
+  getProducts(brandName?: string, sort?: string, page?: number, itemsPerPage?: number, search?: string) {
     let params = new HttpParams();
 
     if (sort) {
@@ -30,6 +30,10 @@ export class ShopService {
     if (page !== null && itemsPerPage !== null) {
       params = params.append("pageNumber", page?.toString()!)
       params = params.append("pageSize", itemsPerPage?.toString()!)
+    }
+
+    if (search) {
+      params = params.append("search", search)
     }
 
     return this.http.get<Product[]>(this.baseUrl + "products", { observe: "response", params })

@@ -24,9 +24,10 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<ProductDto>>> GetProducts(
-            [FromQuery] string sort, [FromQuery] string brandName, [FromQuery] UserParmas userParmas)
+            [FromQuery] string sort, [FromQuery] string brandName, [FromQuery] UserParmas userParmas,
+            [FromQuery] string search)
         {
-            var products = await _productsService.GetProductsAndOrdering(sort, brandName, userParmas);
+            var products = await _productsService.GetProductsAndOrdering(sort, brandName, userParmas, search);
             //var products = await _productRepository.GetProductsAsync();
 
             Response.AddPaginationHeader(products.CurrentPage, products.PageSize, products.TotalCount, products.TotalPages);
