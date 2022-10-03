@@ -46,6 +46,44 @@ export class CartService {
     this.setCart(cart)
   }
 
+  incrementItemQuantity(item: ICartItem) {
+    const cart = this.getCurrentCartValue()
+    const foundItemIndex = cart.items.findIndex(x => x.id === item.id)
+    cart.items[foundItemIndex].quantity++
+    this.setCart(cart)
+  }
+
+  decrementItemQuantity(item: ICartItem) {
+    const cart = this.getCurrentCartValue()
+    const foundItemIndex = cart.items.findIndex(x => x.id === item.id)
+    if (cart.items[foundItemIndex].quantity > 1) {
+      cart.items[foundItemIndex].quantity--
+      this.setCart(cart)
+    } else {
+      this.removeItemFromCart(item)
+    }
+  }
+
+  removeItemFromCart(item: ICartItem) {
+    const cart = this.getCurrentCartValue()
+    if (cart.items.some(x => x.id === item.id)) {
+      cart.items = cart.items.filter(i => i.id !== item.id)
+      if (cart.items.length > 0) {
+        this.setCart(cart)
+      } else {
+        this.deleteCart(cart)
+      }
+    }
+  }
+
+  deleteCart(cart: ICart) {
+    return this.http.delete(this.baseUrl + 'cart?cartId=' + cart.id).subscribe(() => {
+      this.cartSource.next(null!)
+      this.cartTotalSource.next(null!)
+      localStorage.removeItem("cart_id")
+    }, err => console.log(err))
+  }
+
   private addOrUpdateToCart(items: ICartItem[], itemToAdd: ICartItem, quantity: number): ICartItem[] {
     const i = items.findIndex(i => i.id === itemToAdd.id)
 

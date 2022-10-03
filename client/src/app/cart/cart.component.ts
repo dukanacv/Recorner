@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ICart } from '../_models/cart';
+import { ICart, ICartItem } from '../_models/cart';
 import { CartService } from './cart.service';
 
 @Component({
@@ -17,4 +17,15 @@ export class CartComponent implements OnInit {
     this.cart$ = this.cartService.cart$
   }
 
+  removeCartItem(item: ICartItem) {
+    this.cartService.removeItemFromCart(item)
+  }
+
+  incrementItemQuantity(imte: ICartItem) {
+    this.cartService.incrementItemQuantity(imte)
+  }
+
+  decrementItemQuantity(item: ICartItem) {
+    this.cartService.decrementItemQuantity(item)
+  }
 }

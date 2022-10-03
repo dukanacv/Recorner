@@ -18,7 +18,6 @@ export interface ICartItem {
 export class Cart implements ICart {
     id = uuidv4()
     items: ICartItem[] = []
-
 }
 
 export interface ICartTotals {
