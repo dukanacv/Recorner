@@ -20,6 +20,7 @@ export class CartService {
       .pipe(
         map((cart: any) => {
           this.cartSource.next(cart)
+          console.log(this.getCurrentCartValue())
         })
       )
   }
