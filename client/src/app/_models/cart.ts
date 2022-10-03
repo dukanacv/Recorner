@@ -20,3 +20,9 @@ export class Cart implements ICart {
     items: ICartItem[] = []
 
 }
+
+export interface ICartTotals {
+    shipping: number
+    subtotal: number
+    total: number
+}

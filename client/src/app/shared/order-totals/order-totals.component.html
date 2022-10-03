@@ -1,0 +1,23 @@
+<div class="bg-ligh px-4 py-3 text-uppercase">
+    <h4><strong>Porudzbina</strong></h4>
+</div>
+<div class="p-4">
+    <p class="mb-4" style="font-style: italic;">Troskovi dostave ce biti naknadno izracunati.</p>
+    <ul class="list-unstyled mb-4" *ngIf="(cartTotal$ | async) as total">
+        <li class="d-flex justify-content-between py-3 borderbottom">
+            <strong class="text-muted">Ukupno proizvoda</strong>
+            <strong>{{total.subtotal | currency: "EUR"}}</strong>
+        </li>
+        <hr>
+        <li class="d-flex justify-content-between py-3 borderbottom">
+            <strong class="text-muted">Dostava i kurirska sluzba</strong>
+            <strong>{{total.shipping | currency: "EUR"}}</strong>
+        </li>
+        <hr>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">UKUPNO</strong>
+            <strong>{{total.total | currency: "EUR"}}</strong>
+        </li>
+        <hr>
+    </ul>
+</div>
