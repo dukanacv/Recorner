@@ -8,7 +8,8 @@
         <strong><span class="mb-2">{{product.price | currency:"EUR"}}</span></strong>
 
         <div class="btn-group mt-auto ">
-            <button type="button" class="btn btn-sm btn-outline-danger fa fa-shopping-cart"></button>
+            <button type="button" (click)="addItemToCart()"
+                class="btn btn-sm btn-outline-danger fa fa-shopping-cart"></button>
             <button type="button" class="btn btn-sm btn-outline-secondary"
                 routerLink="/shop/{{product.id}}">Pogledaj</button>
         </div>
