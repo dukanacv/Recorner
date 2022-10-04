@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using API.Errors;
 using API.Interfaces;
 using API.Middleware;
+using API.Models.Identity;
 using API.Repositories;
 using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -55,6 +57,7 @@ namespace API
             });
 
             services.AddDbContext<Db>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<IdDbContext>(x => x.UseSqlite(_config.GetConnectionString("IdentityConnection")));
 
             services.AddSingleton<IConnectionMultiplexer, ConnectionMultiplexer>(c =>
             {
@@ -67,6 +70,17 @@ namespace API
             services.AddScoped<ICartRepository, CartRepository>();
 
             services.AddScoped<ProductsService>();
+
+            //HERE STARTS IDENTITY SERVICES
+
+            var builder = services.AddIdentityCore<User>();
+            builder = new IdentityBuilder(builder.UserType, builder.Services);
+            builder.AddEntityFrameworkStores<IdDbContext>();
+            builder.AddSignInManager<SignInManager<User>>();
+
+            services.AddAuthentication();
+
+            //HERE ENDS IDENTITY SERVICES
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
