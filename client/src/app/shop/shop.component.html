@@ -8,7 +8,7 @@
             </select>
 
             <h5 class="text mt-3 ml-3">Marke</h5>
-            <h6 class="border bg-light" (click)="getAllProducts()" style="cursor: pointer; width: 80px;">Prikazi sve
+            <h6 class="border bg-light" (click)="getAllProducts()" style="cursor: pointer; width: min-content;">Sve
             </h6>
             <ul class="list-group">
                 <li class="list-group-item" *ngFor="let brand of brands" [class.active]="brand.name ===
