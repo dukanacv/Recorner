@@ -1,8 +1,14 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
+using API.Interfaces;
 using API.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -12,10 +18,44 @@ namespace API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly ITokenService _tokenService;
+        private readonly IdDbContext _idDbContext;
+
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager,
+        ITokenService tokenService, IdDbContext idDbContext)
         {
+            _idDbContext = idDbContext;
+            _tokenService = tokenService;
             _signInManager = signInManager;
             _userManager = userManager;
+
+        }
+
+        [HttpGet()]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = _tokenService.CreateToken(user),
+                UserName = user.UserName
+            };
+        }
+
+        [HttpGet("address")]
+        [Authorize]
+        public async Task<ActionResult<Address>> GetUserAddress()
+        {
+            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+
+            var address = await _idDbContext.Users.Where(x => x.Email == email).Select(p => p.Address).SingleOrDefaultAsync();
+
+            return address;
 
         }
 
@@ -40,10 +80,11 @@ namespace API.Controllers
             return new UserDto
             {
                 Email = user.Email,
-                Token = "OVO JE TOKEN",
+                Token = _tokenService.CreateToken(user),
                 UserName = user.UserName
             };
         }
+
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
@@ -63,9 +104,11 @@ namespace API.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = "OVO JE TOKEN",
+                Token = _tokenService.CreateToken(user),
                 Email = user.Email
             };
         }
+
+
     }
 }

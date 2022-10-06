@@ -7,6 +7,8 @@ import { ServerErrorComponent } from './core/server-error/server-error.component
 import { HomeComponent } from './home/home/home.component';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
 import { ShopComponent } from './shop/shop.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegisterComponent } from './user/register/register.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: "shop/:id", component: ProductDetailsComponent },
   { path: "cart", component: CartComponent },
   { path: "checkout", component: CheckoutComponent },
+  { path: "user/login", component: LoginComponent },
+  { path: "user/register", component: RegisterComponent },
   { path: "server-error", component: ServerErrorComponent },
   { path: "not-found", component: NotFoundComponent },
   { path: "**", redirectTo: '', pathMatch: "full" },

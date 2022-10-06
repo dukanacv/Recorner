@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from "ngx-bootstrap/pagination";
 import { OrderTotalsComponent } from './order-totals/order-totals.component'
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -11,11 +12,13 @@ import { OrderTotalsComponent } from './order-totals/order-totals.component'
   ],
   imports: [
     CommonModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ReactiveFormsModule
   ],
   exports: [
     PaginationModule,
-    OrderTotalsComponent
+    OrderTotalsComponent,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

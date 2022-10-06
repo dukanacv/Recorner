@@ -9,6 +9,7 @@ import { CoreModule } from './core/core.module';
 import { ShopModule } from './shop/shop.module';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { CartModule } from './cart/cart.module';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CartModule } from './cart/cart.module';
     HttpClientModule,
     CoreModule,
     ShopModule,
-    CartModule
+    CartModule,
+    UserModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

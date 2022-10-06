@@ -74,6 +74,8 @@ namespace API
 
             services.AddScoped<ProductsService>();
 
+            services.AddScoped<ITokenService, TokenService>();
+
             //HERE STARTS IDENTITY SERVICES
 
             var builder = services.AddIdentityCore<User>();
@@ -89,7 +91,8 @@ namespace API
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"])),
                         ValidIssuer = _config["Token:Issuer"],
-                        ValidateIssuer = true
+                        ValidateIssuer = true,
+                        ValidateAudience = false
                     };
                 });
 
