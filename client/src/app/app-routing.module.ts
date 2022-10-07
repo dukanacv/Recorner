@@ -9,13 +9,14 @@ import { ProductDetailsComponent } from './shop/product-details/product-details.
 import { ShopComponent } from './shop/shop.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "shop", component: ShopComponent },
   { path: "shop/:id", component: ProductDetailsComponent },
   { path: "cart", component: CartComponent },
-  { path: "checkout", component: CheckoutComponent },
+  { path: "checkout", component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: "user/login", component: LoginComponent },
   { path: "user/register", component: RegisterComponent },
   { path: "server-error", component: ServerErrorComponent },

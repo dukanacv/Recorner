@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject } from 'rxjs';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { User } from '../_models/user';
 export class UserService {
   baseUrl = "https://localhost:5001/api/"
 
-  private currentUserSource = new BehaviorSubject<User>(null!)
+  private currentUserSource = new ReplaySubject<User>(1)
   currentUser$ = this.currentUserSource.asObservable()
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -31,6 +31,7 @@ export class UserService {
       map((user: any) => {
         if (user) {
           localStorage.setItem("token", user.token)
+          this.currentUserSource.next(user)
         }
       })
     )
@@ -40,5 +41,19 @@ export class UserService {
     localStorage.removeItem("token")
     this.currentUserSource.next(null!)
     this.router.navigateByUrl("/")
+  }
+
+  getCurrentUser(token: string) {
+    let headers = new HttpHeaders()
+    headers = headers.set("Authorization", `Bearer ${token}`)
+
+    return this.http.get(this.baseUrl + "user", { headers }).pipe(
+      map((user: any) => {
+        if (user) {
+          localStorage.setItem('token', user.token)
+          this.currentUserSource.next(user)
+        }
+      })
+    )
   }
 }

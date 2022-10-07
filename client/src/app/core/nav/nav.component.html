@@ -11,11 +11,36 @@ shadow-sm fixed-top" style="background-color: rgb(171, 237, 211);">
         <a href="#" class="p-2 " style="text-decoration: none;">Kontakt</a>
     </nav>
     <div class="d-flex align-items center">
-        <a class="position-relative" routerLink="/cart">
+        <a class="position-relative" routerLink="/cart" style="margin-right: 1rem;">
             <i class="fa fa-shopping-cart fa-2x m-2 text-dark"></i>
             <div class="cart-no" *ngIf="(cart$ | async) as cart">{{cart.items.length}}</div>
         </a>
-        <a routerLink="/user/login" class="btn btn-outline-secondary m-2">Login</a>
-        <a routerLink="/user/register" class="btn btn-outline-secondary m-2">Registracija</a>
+
+        <ng-container *ngIf="(currentUser$ | async ) === null">
+            <a routerLink="/user/login" class="btn btn-outline-secondary m-2">Login</a>
+            <a routerLink="/user/register" class="btn btn-outline-secondary m-2">Registracija</a>
+        </ng-container>
+
+        <ng-container *ngIf="currentUser$ | async">
+
+            <div class="dropdown ml-3 mr-5" dropdown>
+
+                <a class="dropdown-toggle" dropdownToggle style="cursor: pointer;">
+                    <strong>{{(currentUser$ |
+                        async)!.userName}}</strong>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer;" *dropdownMenu>
+                    <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-1">
+                        <i class="fa fa-history mr-3"></i> Moje porudzbine
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a (click)="logout()" class="dropdown-item d-flex align-items-center py-1">
+                        <i class="fa fa-sign-out mr-3"></i>Logout
+                    </a>
+                </div>
+            </div>
+
+        </ng-container>
+
     </div>
 </div>

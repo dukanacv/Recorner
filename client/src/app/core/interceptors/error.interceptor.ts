@@ -26,7 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
           }
           if (err.status === 401) {
-            this.toastr.error(err.error.message, err.error.statusCode)
+            this.toastr.error("Problem prilikom logovanja.", err.error.statusCode)
           }
           if (err.status === 404) {
             this.router.navigateByUrl("/not-found")

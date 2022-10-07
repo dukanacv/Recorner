@@ -1,17 +1,28 @@
 <div class="d-flex justify-content-center mt-4">
     <div class="col-3">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <h1 class="h3 mb-3 font-weight-normal">Ulogujte se</h1>
+            <h1 class="h3 font-weight-normal" style="margin-bottom: 1rem;">Ulogujte se</h1>
 
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input formControlName="email" type="email" id="inputEmail" class="form-control"
-                placeholder="E-mail adresa">
+            <div class="form-label-group">
+                <span class="text-danger" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                    E-mail adresa mora biti validna!
+                </span>
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input formControlName="email" type="email" id="inputEmail" class="form-control"
+                    placeholder="E-mail adresa" style="margin-bottom: 1rem;">
+            </div>
 
-            <label for="inputPassword" class="sr-only">Lozinka</label>
-            <input formControlName="password" ype="password" id="inputPassword" class="form-control"
-                placeholder="Lozinka">
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                    Lozinka mora biti validna!
+                </span>
+                <label for="inputPassword" class="sr-only">Lozinka</label>
+                <input formControlName="password" type="password" id="inputPassword" class="form-control"
+                    placeholder="Lozinka" style="margin-bottom: 1rem;">
+            </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            <button [disabled]="loginForm.invalid" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
         </form>
     </div>
 </div>

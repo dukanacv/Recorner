@@ -1,1 +1,40 @@
-<p>register works!</p>
+<div class="d-flex justify-content-center mt-4">
+    <div class="col-3">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <h1 class="h3 font-weight-normal" style="margin-bottom: 1rem;">Registruj se brzo i lako</h1>
+
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched">
+                    Korisnicko ime mora biti uneto!
+                </span>
+                <label for="inputUserName" class="sr-only">Korisnicko ime</label>
+                <input formControlName="userName" type="text" id="inputUserName" class="form-control"
+                    placeholder="Vase korisnicko ime" style="margin-bottom: 1rem;">
+            </div>
+
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                    E-mail adresa mora biti validna!
+                </span>
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input formControlName="email" type="email" id="inputEmail" class="form-control"
+                    placeholder="E-mail adresa" style="margin-bottom: 1rem;">
+            </div>
+
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                    Lozinka mora biti validna!
+                </span>
+                <label for="inputPassword" class="sr-only">Lozinka</label>
+                <input formControlName="password" type="password" id="inputPassword" class="form-control"
+                    placeholder="Lozinka" style="margin-bottom: 1rem;">
+            </div>
+
+            <button [disabled]="registerForm.invalid" class="btn btn-lg btn-primary btn-block"
+                type="submit">Nastavi</button>
+        </form>
+    </div>
+</div>
