@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using API.Models.OrderAggregate;
 using Microsoft.Extensions.Logging;
 
 namespace API.Models.SeedData
@@ -47,6 +48,19 @@ namespace API.Models.SeedData
                     foreach (var product in products)
                     {
                         db.Products.Add(product);
+                    }
+
+                    await db.SaveChangesAsync();
+                }
+
+                if (!db.Deliveries.Any())
+                {
+                    var deliveryData = File.ReadAllText("../API/Models/SeedData/delivery.json");
+                    var deliveries = JsonSerializer.Deserialize<List<Delivery>>(deliveryData);
+
+                    foreach (var d in deliveries)
+                    {
+                        db.Deliveries.Add(d);
                     }
 
                     await db.SaveChangesAsync();

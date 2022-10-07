@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 1,
+    "ShortName": "UPS1",
+    "Description": "Najbrza dostava",
+    "DeliveryTime": "1-2 Dana",
+    "Price": 10
+  },
+  {
+    "Id": 2,
+    "ShortName": "UPS2",
+    "Description": "Dostava do 5 dana",
+    "DeliveryTime": "2-5 Dana",
+    "Price": 5
+  },
+  {
+    "Id": 3,
+    "ShortName": "UPS3",
+    "Description": "Najsporije, ali najjeftinije",
+    "DeliveryTime": "5-10 Dana",
+    "Price": 2
+  },
+  {
+    "Id": 4,
+    "ShortName": "BESPLATNO",
+    "Description": "Besplatna dostava!",
+    "DeliveryTime": "1-2 Nedelje",
+    "Price": 0
+  }
+]
