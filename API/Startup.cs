@@ -76,6 +76,10 @@ namespace API
 
             services.AddScoped<ITokenService, TokenService>();
 
+            services.AddScoped<IOrderService, OrderService>();
+
+            services.AddScoped<IDeliveryRepository, DeliveryRepository>();
+
             //HERE STARTS IDENTITY SERVICES
 
             var builder = services.AddIdentityCore<User>();
