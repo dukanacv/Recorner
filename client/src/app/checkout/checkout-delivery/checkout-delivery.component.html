@@ -1,1 +1,11 @@
-<p>checkout-delivery works!</p>
+<div class="mt-4" [formGroup]="checkoutForm">
+    <div class="row" formGroupName="deliveryForm">
+        <div class="col-6 form-group" *ngFor="let d of delivery" style="margin-bottom: 1rem;">
+            <input type="radio" id={{d.id}} value={{d.id}} formControlName="delivery" class="custom-control-input">
+            <label for="{{d.id}}" class="custom-control-label">
+                <strong>{{d.shortName}} - {{d.price | currency: "EUR"}}</strong> <br>
+                <span class="label-description">{{d.description}}</span>
+            </label>
+        </div>
+    </div>
+</div>

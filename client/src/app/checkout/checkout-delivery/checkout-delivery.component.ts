@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Delivery } from 'src/app/_models/delivery';
+import { CheckoutService } from '../checkout.service';
 
 @Component({
   selector: 'app-checkout-delivery',
@@ -6,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./checkout-delivery.component.css']
 })
 export class CheckoutDeliveryComponent implements OnInit {
+  @Input() checkoutForm!: FormGroup
+  delivery!: Delivery[]
 
-  constructor() { }
+  constructor(private checkoutService: CheckoutService) { }
 
   ngOnInit(): void {
+    this.getDeliveries()
   }
 
+  getDeliveries() {
+    this.checkoutService.getDelivery().subscribe(response => {
+      this.delivery = response
+    }, err => console.log(err))
+  }
 }

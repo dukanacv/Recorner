@@ -12,6 +12,7 @@ import { CartModule } from './cart/cart.module';
 import { UserModule } from './user/user.module';
 import { SharedModule } from './shared/shared.module';
 import { CheckoutModule } from './checkout/checkout.module';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CheckoutModule } from './checkout/checkout.module';
     CheckoutModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
