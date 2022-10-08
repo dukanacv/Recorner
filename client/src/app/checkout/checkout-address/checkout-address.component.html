@@ -1,0 +1,57 @@
+<div class="mt-4" [formGroup]="checkoutForm">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>Adresa primaoca</h4>
+    </div>
+    <div class="row" formGroupName="addressForm">
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="checkoutForm.get('firstName')?.invalid && checkoutForm.get('firstName')?.touched">
+                </span>
+                <label for="firstName" class="sr-only">Ime</label>
+                <input formControlName="firstName" type="text" id="firstName" class="form-control" placeholder="Ime"
+                    style="margin-bottom: 1rem;">
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="checkoutForm.get('lastName')?.invalid && checkoutForm.get('lastName')?.touched">
+                </span>
+                <label for="lastName" class="sr-only">Prezime</label>
+                <input formControlName="lastName" type="text" id="lastName" class="form-control" placeholder="Prezime"
+                    style="margin-bottom: 1rem;">
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="checkoutForm.get('street')?.invalid && checkoutForm.get('street')?.touched">
+                </span>
+                <label for="street" class="sr-only">Ulica</label>
+                <input formControlName="street" type="text" id="street" class="form-control" placeholder="Ulica"
+                    style="margin-bottom: 1rem;">
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="checkoutForm.get('city')?.invalid && checkoutForm.get('city')?.touched">
+                </span>
+                <label for="city" class="sr-only">Grad</label>
+                <input formControlName="city" type="text" id="city" class="form-control" placeholder="Grad"
+                    style="margin-bottom: 1rem;">
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <span class="text-danger"
+                    *ngIf="checkoutForm.get('zipCode')?.invalid && checkoutForm.get('zipCode')?.touched">
+                </span>
+                <label for="zipCode" class="sr-only">Zip code</label>
+                <input formControlName="zipCode" type="text" id="zipCode" class="form-control" placeholder="Zip code"
+                    style="margin-bottom: 1rem;">
+            </div>
+        </div>
+    </div>
+</div>

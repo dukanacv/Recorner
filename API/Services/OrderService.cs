@@ -65,8 +65,6 @@ namespace API.Services
                 .Include(d => d.Delivery)
                 .ToListAsync();
 
-            Console.WriteLine(orders);
-
             return orders;
         }
     }

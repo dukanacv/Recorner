@@ -1,3 +1,23 @@
 <div class="container">
-    <h1>Samo registrovani korisnici mogu da pristupe ovoj stranici!</h1>
+    <div class="row">
+        <div class="col-8">
+            <app-stepper [linearModeSelected]="false" #appStepper>
+                <cdk-step [label]="'Adresa'">
+                    <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
+                </cdk-step>
+                <cdk-step [label]="'Nacin dostave'">
+                    <app-checkout-delivery></app-checkout-delivery>
+                </cdk-step>
+                <cdk-step [label]="'Pregled '">
+                    <app-checkout-review></app-checkout-review>
+                </cdk-step>
+                <cdk-step [label]="'Placanje'">
+                    <app-checkout-payment></app-checkout-payment>
+                </cdk-step>
+            </app-stepper>
+        </div>
+        <div class="col-4">
+            <app-order-totals> </app-order-totals>
+        </div>
+    </div>
 </div>
