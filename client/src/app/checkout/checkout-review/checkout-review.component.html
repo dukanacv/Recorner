@@ -1,1 +1,49 @@
-<p>checkout-review works!</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="border-0 bg-light" scope="col">
+                    <div class="p-2 px-3 text-uppercase">Proizvod</div>
+                </th>
+                <th class="border-0 bg-light" scope="col">
+                    <div class="py-2text-uppercase">Kolicina</div>
+                </th>
+                <th class="border-0 bg-light" scope="col">
+                    <div class="py-2text-uppercase">Cena </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of (cart$ | async)!.items">
+                <th scope="row">
+                    <div class="p-2">
+                        <img src="https://localhost:5001/{{item.pictureUrl}}" alt="{{item.productName}}"
+                            class="img-fluid" style="max-height: 50px;">
+                        <div class="ml-3 d-inline-block align-middle">
+                            <h5 class="mb-0">
+                                <a style="text-decoration: none;" routerLink="/shop/{{item.id}}" class="text-dark">
+                                    {{item.productName}}
+                                </a>
+                            </h5>
+                            <span class="text-muted font-weight-normal font-italic d-block">
+                                Tip: {{item.type}}
+                            </span>
+                        </div>
+                    </div>
+                </th>
+                <td class="align-middle"><strong>{{item.quantity}}</strong></td>
+                <td class="align-middle">
+                    <strong>{{item.price * item.quantity | currency: "EUR"}}</strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
+    <button class="btn btn-outline-danger" cdkStepperPrevious>
+        <strong>Dostava</strong><i class="fa fa-angle-left"></i>
+    </button>
+    <button class="btn btn-outline-danger" cdkStepperNext>
+        <strong>Placanje</strong><i class="fa fa-angle-right"></i>
+    </button>
+</div>

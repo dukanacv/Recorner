@@ -56,4 +56,8 @@ export class UserService {
       })
     )
   }
+
+  getUserAddress() {
+    return this.http.get(this.baseUrl + "user/address")
+  }
 }
