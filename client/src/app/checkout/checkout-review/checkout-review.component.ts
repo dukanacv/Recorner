@@ -16,6 +16,4 @@ export class CheckoutReviewComponent implements OnInit {
   ngOnInit(): void {
     this.cart$ = this.cartService.cart$
   }
-
-
 }

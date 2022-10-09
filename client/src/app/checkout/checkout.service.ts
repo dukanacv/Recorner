@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { Delivery } from '../_models/delivery';
+import { IOrderToCreate } from '../_models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class CheckoutService {
         return d
       })
     )
+  }
+
+  createOrder(order: IOrderToCreate) {
+    return this.http.post(this.baseUrl + "orders", order)
   }
 }

@@ -6,9 +6,8 @@ namespace API.Models.OrderAggregate
         {
         }
 
-        public OrderItem(int id, ProductItemOrdered itemOrdered, int price, int quantity)
+        public OrderItem(ProductItemOrdered itemOrdered, int price, int quantity)
         {
-            Id = id;
             ItemOrdered = itemOrdered;
             Price = price;
             Quantity = quantity;

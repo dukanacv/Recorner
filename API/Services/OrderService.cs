@@ -31,7 +31,7 @@ namespace API.Services
             {
                 var productItem = await _productRepository.GetProductByIdAsync(item.Id);
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.PictureUrl);
-                var orderItem = new OrderItem(productItem.Id, itemOrdered, productItem.Price, item.Quantity);
+                var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
                 items.Add(orderItem);
             }
 
