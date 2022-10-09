@@ -71,7 +71,7 @@ namespace API.Services
             {
                 var options = new PaymentIntentUpdateOptions
                 {
-                    Amount = cart.Items.Sum(i => i.Quantity * (i.Price * 100) + shippingPrice * 100)
+                    Amount = cart.Items.Sum(i => i.Quantity * (i.Price) + shippingPrice)
                 };
 
                 await stripeService.UpdateAsync(cart.PaymentId, options);
