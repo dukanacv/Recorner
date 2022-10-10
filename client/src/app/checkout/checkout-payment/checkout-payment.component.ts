@@ -52,8 +52,22 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     const orderToCreate = this.getOrderToCreate(cart)
     this.checkoutService.createOrder(orderToCreate).subscribe((order: any) => {
       this.toastr.success("Uspesno kreirana porudzbina")
-      this.cartService.deleteCart(cart)
-      this.router.navigateByUrl("/")
+      this.stripe.confirmCardPayment(cart.clientSecret, {
+        payment_method: {
+          card: this.cardNumber,
+          billing_details: {
+            name: this.checkoutForm.get("paymentForm")?.get("nameOnCard")?.value
+          }
+        }
+      }).then((result: any) => {
+        console.log(result)
+        if (result.paymentIntent) {
+          this.cartService.deleteCart(cart)
+          this.router.navigateByUrl("/")
+        } else {
+          this.toastr.error("Placanje nije uspelo")
+        }
+      })
     }, err => console.log(err))
   }
 
