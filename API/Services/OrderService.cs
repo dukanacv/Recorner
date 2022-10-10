@@ -43,15 +43,7 @@ namespace API.Services
 
             var subtotal = items.Sum(item => item.Price * item.Quantity);
 
-            //check if order exists
-            var existingOrder = _orderRepository.GetOrderByPaymentIntentId(cart.PaymentId);
-
-            if (existingOrder != null)
-            {
-                _orderRepository.DeleteOrder(existingOrder.Id);
-                await _paymentService.createOrUpdatePayment(cart.PaymentId);
-            }
-
+            await _paymentService.createOrUpdatePayment(cart.Id);
 
             var order = new Order(items, buyerEmail, shippingAddress, delivery, subtotal, cart.PaymentId);
 

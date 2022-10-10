@@ -60,7 +60,7 @@
     <button class="btn btn-outline-danger" routerLink="/cart">
         <strong>Nazad na korpu!</strong> <i class="fa fa-angle-left"></i>
     </button>
-    <button class="btn btn-outline-danger" cdkStepperNext>
+    <button class="btn btn-outline-danger" cdkStepperNext [disabled]="checkoutForm.get('addressForm')!.invalid">
         <strong>Dostava</strong><i class="fa fa-angle-right"></i>
     </button>
 </div>

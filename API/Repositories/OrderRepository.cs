@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,12 +20,16 @@ namespace API.Repositories
         {
             var order = await _db.Orders.FindAsync(orderId);
 
+            Console.WriteLine(order.Subtotal);
+
             _db.Orders.Remove(order);
+
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Order> GetOrderByPaymentIntentId(string paymentId)
         {
-            return await _db.Orders.SingleOrDefaultAsync(o => o.PaymentIntentId.Equals(paymentId));
+            return await _db.Orders.FirstOrDefaultAsync(o => o.PaymentIntentId == paymentId);
         }
     }
 }

@@ -16,13 +16,20 @@ declare var Stripe: any;
 })
 export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   @Input() checkoutForm!: FormGroup
+
   @ViewChild('cardNumber', { static: true }) cardNumberElement!: ElementRef
   @ViewChild('cardExpiry', { static: true }) cardExpiryElement!: ElementRef
   @ViewChild('cardCvc', { static: true }) cardCvcElement!: ElementRef
+
   stripe: any
   cardNumber: any
   cardExpiry: any
   cardCvc: any
+
+  cardNumberValid = false
+  cardExpiryValid = false
+  cardCvcValid = false
+  cardHandler = this.onChange.bind(this);
 
   constructor(private cartService: CartService, private checkoutService: CheckoutService,
     private toastr: ToastrService, private router: Router) { }
@@ -33,18 +40,35 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
 
     this.cardNumber = elements.create('cardNumber')
     this.cardNumber.mount(this.cardNumberElement.nativeElement)
+    this.cardNumber.addEventListener('change', this.cardHandler);
 
     this.cardExpiry = elements.create('cardExpiry')
     this.cardExpiry.mount(this.cardExpiryElement.nativeElement)
+    this.cardExpiry.addEventListener('change', this.cardHandler);
 
     this.cardCvc = elements.create('cardCvc')
     this.cardCvc.mount(this.cardCvcElement.nativeElement)
+    this.cardCvc.addEventListener('change', this.cardHandler);
   }
 
   ngOnDestroy() {
     this.cardNumber.destroy()
     this.cardExpiry.destroy()
     this.cardCvc.destroy()
+  }
+
+  onChange(event: any) {
+    switch (event.elementType) {
+      case 'cardNumber':
+        this.cardNumberValid = event.complete;
+        break;
+      case 'cardExpiry':
+        this.cardExpiryValid = event.complete;
+        break;
+      case 'cardCvc':
+        this.cardCvcValid = event.complete;
+        break;
+    }
   }
 
   submitOrder() {

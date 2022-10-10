@@ -14,7 +14,7 @@
     <button class="btn btn-outline-danger" cdkStepperPrevious>
         <strong>Adresa</strong> <i class="fa fa-angle-left"></i>
     </button>
-    <button class="btn btn-outline-danger" cdkStepperNext>
+    <button class="btn btn-outline-danger" cdkStepperNext [disabled]="checkoutForm.get('deliveryForm')!.invalid">
         <strong>Konacni pregled</strong><i class="fa fa-angle-right"></i>
     </button>
 </div>
