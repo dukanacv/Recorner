@@ -23,7 +23,6 @@ export class CheckoutReviewComponent implements OnInit {
 
   createPayment() {
     return this.cartService.createPaymen().subscribe(response => {
-      this.toastr.success("Placanje uspesno")
       this.appStepper.next()
     }, error => {
       console.log(error)

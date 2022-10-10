@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Interfaces;
 using API.Models;
+using API.Models.OrderAggregate;
 using Microsoft.Extensions.Configuration;
 using Stripe;
 
@@ -14,9 +15,13 @@ namespace API.Services
         private readonly IConfiguration _config;
         private readonly IDeliveryRepository _deliveryRepository;
         private readonly IProductRepository _productRepository;
-        public PaymentService(ICartRepository cartRepository, IConfiguration config,
+        private readonly IOrderRepository _orderRepository;
+        private readonly Db _db;
+        public PaymentService(Db db, IOrderRepository orderRepository, ICartRepository cartRepository, IConfiguration config,
         IDeliveryRepository deliveryRepository, IProductRepository productRepository)
         {
+            _db = db;
+            _orderRepository = orderRepository;
             _productRepository = productRepository;
             _deliveryRepository = deliveryRepository;
             _config = config;
@@ -80,6 +85,40 @@ namespace API.Services
             await _cartRepository.UpdateCartAsync(cart);
 
             return cart;
+        }
+
+        public async Task<Order> UpdateOrderPaymentFailed(string paymentId)
+        {
+            var order = await _orderRepository.GetOrderByPaymentIntentId(paymentId);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            order.Status = OrderStatus.PlacanjeNijeUspelo;
+
+            await _db.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order> UpdateOrderPaymentSucceeded(string paymentId)
+        {
+            var order = await _orderRepository.GetOrderByPaymentIntentId(paymentId);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            order.Status = OrderStatus.UspesnoPlacanje;
+
+            //update order
+
+            //save chagnes async
+
+            return order;
         }
     }
 }
