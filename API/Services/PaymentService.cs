@@ -57,7 +57,7 @@ namespace API.Services
                 var options = new PaymentIntentCreateOptions
                 {
                     Amount = cart.Items.Sum(i => i.Quantity * (i.Price * 100) + shippingPrice * 100),
-                    Currency = "eur",
+                    Currency = "EUR",
                     PaymentMethodTypes = new List<string> { "card" }
                 };
 

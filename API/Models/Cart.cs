@@ -20,5 +20,6 @@ namespace API.Models
         public int? DeliveryId { get; set; }
         public string ClientSecret { get; set; }
         public string PaymentId { get; set; }
+        public int? ShippingPrice { get; set; }
     }
 }

@@ -1,4 +1,29 @@
-<p>checkout-payment works!</p>
+<div class="mt-4" [formGroup]="checkoutForm">
+    <div class="row">
+        <div class="form-group col-12" formGroupName="paymentForm">
+            <div class="form-group col-12">
+                <div class="form-label-group">
+                    <span class="text-danger"
+                        *ngIf="checkoutForm.get('nameOnCard')?.invalid && checkoutForm.get('nameOnCard')?.touched">
+                    </span>
+                    <label for="nameOnCard" class="sr-only">Ime na kartici</label>
+                    <input formControlName="nameOnCard" type="text" id="nameOnCard" class="form-control"
+                        placeholder="Ime na kartici" style="margin-bottom: 1rem;">
+                </div>
+                <div class="form-group col-6">
+                    <div class="form-control py-3" #cardNumber></div>
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-control py-3" #cardExpiry></div>
+                </div>
+                <div class="form-group col-3">
+                    <div class="form-control py-3" #cardCvc></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
     <button class="btn btn-outline-danger" cdkStepperPrevious>
         <strong>Pregled</strong> <i class="fa fa-angle-left"></i>

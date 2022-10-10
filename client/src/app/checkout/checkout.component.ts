@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CartService } from '../cart/cart.service';
 import { UserService } from '../user/user.service';
 
 @Component({
@@ -10,11 +11,12 @@ import { UserService } from '../user/user.service';
 export class CheckoutComponent implements OnInit {
   checkoutForm!: FormGroup
 
-  constructor(private fb: FormBuilder, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.createCheckoutForm()
     this.getAndSetAddress()
+    this.getDeliveryValues()
   }
 
   createCheckoutForm() {
@@ -41,5 +43,12 @@ export class CheckoutComponent implements OnInit {
         this.checkoutForm.get("addressForm")?.patchValue(response)
       }
     }, err => console.log(err))
+  }
+
+  getDeliveryValues() {
+    const cart = this.cartService.getCurrentCartValue()
+    if (cart.deliveryId !== null) {
+      this.checkoutForm.get("deliveryForm")!.get("delivery")?.patchValue(cart.deliveryId!.toString())
+    }
   }
 }

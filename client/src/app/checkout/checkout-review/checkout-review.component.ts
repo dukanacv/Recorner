@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { CartService } from 'src/app/cart/cart.service';
 import { Cart } from 'src/app/_models/cart';
@@ -11,9 +12,18 @@ import { Cart } from 'src/app/_models/cart';
 export class CheckoutReviewComponent implements OnInit {
   cart$!: Observable<Cart>
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.cart$ = this.cartService.cart$
+  }
+
+  createPayment() {
+    return this.cartService.createPaymen().subscribe(response => {
+      this.toastr.success("Placanje kreirano")
+    }, error => {
+      console.log(error)
+      this.toastr.error(error.message)
+    })
   }
 }

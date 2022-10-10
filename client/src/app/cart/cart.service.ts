@@ -26,6 +26,7 @@ export class CartService {
       .pipe(
         map((cart: any) => {
           this.cartSource.next(cart)
+          this.shipping = cart.shippingPrice
           this.totals()
         })
       )
@@ -89,7 +90,18 @@ export class CartService {
 
   setShipping(delivery: Delivery) {
     this.shipping = delivery.price
+    const cart = this.getCurrentCartValue()
+    cart.deliveryId = delivery.id
     this.totals()
+    this.setCart(cart)
+  }
+
+  createPaymen() {
+    return this.http.post(this.baseUrl + "payments/" + this.getCurrentCartValue().id, {}).pipe(
+      map((cart: any) => {
+        this.cartSource.next(cart)
+      })
+    )
   }
 
   private addOrUpdateToCart(items: ICartItem[], itemToAdd: ICartItem, quantity: number): ICartItem[] {
