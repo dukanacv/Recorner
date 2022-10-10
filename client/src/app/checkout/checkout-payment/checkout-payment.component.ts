@@ -65,7 +65,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
           this.cartService.deleteCart(cart)
           this.router.navigateByUrl("/")
         } else {
-          this.toastr.error("Placanje nije uspelo")
+          this.toastr.error(result.error.message)
         }
       })
     }, err => console.log(err))

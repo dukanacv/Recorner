@@ -14,8 +14,12 @@ namespace API.Services
         private readonly IProductRepository _productRepository;
         private readonly IDeliveryRepository _deliveryRepository;
         private readonly Db _db;
-        public OrderService(ICartRepository cartRepository, IProductRepository productRepository, IDeliveryRepository deliveryRepository, Db db)
+        private readonly IOrderRepository _orderRepository;
+        private readonly IPaymentService _paymentService;
+        public OrderService(ICartRepository cartRepository, IProductRepository productRepository, IDeliveryRepository deliveryRepository, Db db, IOrderRepository orderRepository, IPaymentService paymentService)
         {
+            _paymentService = paymentService;
+            _orderRepository = orderRepository;
             _db = db;
             _deliveryRepository = deliveryRepository;
             _productRepository = productRepository;
@@ -39,7 +43,17 @@ namespace API.Services
 
             var subtotal = items.Sum(item => item.Price * item.Quantity);
 
-            var order = new Order(items, buyerEmail, shippingAddress, delivery, subtotal);
+            //check if order exists
+            var existingOrder = _orderRepository.GetOrderByPaymentIntentId(cart.PaymentId);
+
+            if (existingOrder != null)
+            {
+                _orderRepository.DeleteOrder(existingOrder.Id);
+                await _paymentService.createOrUpdatePayment(cart.PaymentId);
+            }
+
+
+            var order = new Order(items, buyerEmail, shippingAddress, delivery, subtotal, cart.PaymentId);
 
             _db.Orders.Add(order);
 

@@ -9,13 +9,15 @@ namespace API.Models.OrderAggregate
         {
         }
 
-        public Order(List<OrderItem> orderItems, string byerEmail, Address shippingAddress, Delivery delivery, int subtotal)
+        public Order(List<OrderItem> orderItems, string byerEmail, Address shippingAddress, Delivery delivery, int subtotal,
+        string paymentIntentId)
         {
             ByerEmail = byerEmail;
             ShippingAddress = shippingAddress;
             Delivery = delivery;
             OrderItems = orderItems;
             Subtotal = subtotal;
+            PaymentIntentId = paymentIntentId;
         }
 
         public int Id { get; set; }

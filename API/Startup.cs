@@ -82,6 +82,8 @@ namespace API
 
             services.AddScoped<IPaymentService, PaymentService>();
 
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
             //HERE STARTS IDENTITY SERVICES
 
             var builder = services.AddIdentityCore<User>();

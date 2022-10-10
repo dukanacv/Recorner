@@ -20,7 +20,14 @@ namespace API.Controllers
         [Authorize]
         public async Task<ActionResult<Cart>> CreateOrUpdatePayment(string cartId)
         {
-            return await _paymentService.createOrUpdatePayment(cartId);
+            var cart = await _paymentService.createOrUpdatePayment(cartId);
+
+            if (cart == null)
+            {
+                return BadRequest("Postoji problem sa korpom.");
+            }
+
+            return cart;
         }
     }
 }
